@@ -1,0 +1,81 @@
+TestNG:
+
+test {
+	useTestNG() {
+	suites 'testng.xml'
+	}
+}
+sourceSets { test.java.srcDir 'src/main/java'}
+
+
+Cucumber:
+
+task Cucumber()
+doLast(){
+	javaexec {
+	main = 'cucumber.api.cli.main'
+	args = 'path of java file'
+	}
+}
+
+Dataprovider with excel
+
+1. Created a class file call - Dataprovider.java
+
+public class DataInputProvider {
+
+	//create Lead
+	public static Object[][] readExcel(String dataSheetName) throws IOException {
+		//Read excel
+		XSSFWorkbook wb = new XSSFWorkbook("./data/"+dataSheetName+".xlsx");
+		
+		//Go to Sheet
+		XSSFSheet sheet = wb.getSheetAt(0);
+		
+		short cellCount = sheet.getRow(0).getLastCellNum();
+		System.out.println(cellCount);
+		int rowCount = sheet.getLastRowNum();
+		System.out.println(rowCount);
+		Object[][] data = new Object[rowCount][cellCount];
+		
+		for (int j = 1; j <= rowCount; j++) {
+			//Go to row
+			XSSFRow row = sheet.getRow(j);
+			
+			for (int i = 0; i < cellCount; i++) {
+				//Go to cell
+				XSSFCell cell = row.getCell(i);
+				String value = cell.getStringCellValue();
+				System.out.println(value);
+				data[j-1][i] = value;
+			} 
+		}
+		//Close Excel
+		wb.close();
+		return data;
+	}
+
+
+@DataProvider (name = "fetchData")
+Project Methods - specify name
+public String dataSheetName;
+public Object[][] getData() throws IOException{
+	DataInputProvider dp = new DataInputProvider();
+	Object[][] sheet = dp.readExcel(dataSheetName);	
+	return sheet;
+
+In Test Cases - use the dataprovider 
+
+	@BeforeTest
+	public void SetData() {
+		testCaseName = "Login Logout";
+		testNodes = "Login";
+		testDesc = "Login into Leaftap";
+		category = "smoke";
+		author = "Sai";
+		dataSheetName = "TC001";
+	} - This is from extent Report 
+	
+	@Test(dataProvider = "fetchData")
+	public void loginLogOut(String uname, String password,String cname, String fname,String lname,String phno,String emailId) {
+		new LoginPage()
