@@ -79,3 +79,15 @@ In Test Cases - use the dataprovider
 	@Test(dataProvider = "fetchData")
 	public void loginLogOut(String uname, String password,String cname, String fname,String lname,String phno,String emailId) {
 		new LoginPage()
+	
+Cucumber Runner hook steps in Java:
+
+@CucumberOptions(
+		features = {"src/test/java/features/Login.feature"},
+		glue = {"leafTaps","pages"},
+		monochrome = true, //to remove junk characters
+		tags = "@test2"
+	/*dryRun = true,
+		snippets = SnippetType.CAMELCASE*/
+		)
+@RunWith(Cucumber.class)
