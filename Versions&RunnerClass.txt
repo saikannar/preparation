@@ -1,0 +1,113 @@
+Summary of TestNG Annotations
+@BeforeSuite: The annotated method will be run before all tests in this suite have run.
+
+@BeforeTest: The annotated method will be run before any test method belonging to the classes inside the tag is run.
+
+@BeforeGroups: The list of groups that this configuration method will run before. This method is guaranteed to run shortly before the first test method that belongs to any of these groups is invoked.
+
+@BeforeClass: The annotated method will be run before the first test method in the current class is invoked.
+
+@BeforeMethod: The annotated method will be run before each test method.
+
+@Test: The annotated method is a part of a test case
+
+Versions:
+
+Eclipse: Photon 4.8.0
+Selenium: 3.14
+JDK:1.8
+TestNG: 6.14.2
+Cucumber: 3.0.2
+Extent Report: 3.1.5
+GitLab and GitHub:
+Jenkins: 2.121.1
+Chrome: 2.5.1
+
+Cucumber Runner Class:
+
+
+@CucumberOptions(
+		features = {"src/test/java/features/Login.feature"},
+		glue = {"leafTaps","pages"},
+		monochrome = true, //to remove junk characters
+		tags = "@test2"
+	/*dryRun = true,
+		snippets = SnippetType.CAMELCASE*/
+		)
+@RunWith(Cucumber.class)
+public class RunTest {
+
+}
+
+Hook Test:
+
+public class Hooks extends SeMethods {
+	
+	@Before
+public void beforeScenario(Scenario sc) {
+	
+		startApp("chrome", "http://leaftaps.com/opentaps");
+		 
+		
+}
+	@After
+	public void afterScenario(Scenario sc) {
+		//closeAllBrowsers();
+		
+	}
+}
+TestNG Gradle dependencies:
+test {
+	useTestNG() {
+	suites 'testng.xml'
+	}
+}
+sourceSets { test.java.srcDir 'src/main/java'}
+
+Excel File:
+
+//create Lead
+	public static Object[][] readExcel() throws IOException {
+		//Read excel
+		XSSFWorkbook wb = new XSSFWorkbook("./data/createLead.xlsx");
+		
+		//Go to Sheet
+		XSSFSheet sheet = wb.getSheetAt(0);
+		
+		short cellCount = sheet.getRow(0).getLastCellNum();
+		System.out.println(cellCount);
+		int rowCount = sheet.getLastRowNum();
+		System.out.println(rowCount);
+		Object[][] data = new Object[rowCount][cellCount];
+		
+		for (int j = 1; j <= rowCount; j++) {
+			//Go to row
+			XSSFRow row = sheet.getRow(j);
+			
+			for (int i = 0; i < cellCount; i++) {
+				//Go to cell
+				XSSFCell cell = row.getCell(i);
+				String value = cell.getStringCellValue();
+				System.out.println(value);
+				data[j-1][i] = value;
+			} 
+		}
+		//Close Excel
+		wb.close();
+		return data;
+	}
+
+String str = "Hello World";
+		int len = str.length();
+		Map<Character,Integer> numOfChars = new HashMap<Character,Integer>();
+		for(int i =0; i < len; i++) {
+			char charAt = str.charAt(i);
+			if(!numOfChars.containsKey(charAt)) {
+				numOfChars.put(charAt, 1);
+			}
+				else {
+					numOfChars.put(charAt, numOfChars.get(charAt)+1);
+				}
+				
+			}
+		System.out.println(numOfChars);
