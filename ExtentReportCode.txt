@@ -1,0 +1,11 @@
+ExtentHtmlReporter html = new ExtentHtmlReporter("./reports/results.html");
+		html.setAppendExisting(true);
+		ExtentReports extent = new ExtentReports();
+		extent.attachReporter(html);
+		ExtentTest logger = extent.createTest("TC_001_Creat_Lead", "Creating Lead");
+		logger.log(Status.PASS, "Lead created successfully",MediaEntityBuilder.createScreenCaptureFromPath("./snaps/img1.png").build());
+		logger.assignAuthor("Sai");
+		logger.assignCategory("SanityCheck");
+		extent.flush();
+
+
