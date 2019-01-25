@@ -7,6 +7,10 @@ Build  - Use Gradle Wrapper and select "clean build"
 Post build Notifications - Email trigger
 https://stackoverflow.com/questions/12472645/how-do-i-schedule-jobs-in-jenkins 
 
+*/5 * * * * means every 5 minutes
+
+5 * * * * means the 5th minute of every hour
+
 By setting the schedule period to 15 13 * * * you tell Jenkins to schedule the build every day of every month of every year at the 15th minute of the 13th hour of the day.
 
 Jenkins used a cron expression, and the different fields are:
